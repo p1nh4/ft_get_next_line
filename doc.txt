@@ -9,3 +9,6 @@ static variable:
 	https://www.youtube.com/watch?v=ji1dq8cklyU
 	variáveis locais podem ser criadas como estáticas adicionando a palavra-chave static na sua declaração. Variáveis locais estáticas tem escopo local, ou seja, são visíveis apenas dentro da função onde foram declaradas, mas elas são alocadas no início do programa e liberadas apenas ao final do programa. A consequência disso é que o conteúdo dessas variáveis são preservados entre chamadas de funções
 
+
+read files
+	https://www.codequoi.com/en/handling-a-file-by-its-descriptor-in-c/

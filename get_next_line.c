@@ -6,7 +6,7 @@
 /*   By: davidos- <davidos-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 11:20:56 by davidos-          #+#    #+#             */
-/*   Updated: 2026/01/11 12:49:20 by davidos-         ###   ########.fr       */
+/*   Updated: 2026/01/11 17:29:40 by davidos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,13 @@
 
 char	*get_next_line(int fd)
 {
-	(void)fd;
-	char *s;
+	int			nb_read;	//number bytes read
+	char		*str;
+	static char	buffer[BUFFER_SIZE + 1];
 
-	s = "sad";
-	return s;
+	nb_read = read(fd, buffer, BUFFER_SIZE);
+	if (nb_read == -1)
+		return ;
+	buffer[nb_read] = '\0';
+	return (str);
 }
