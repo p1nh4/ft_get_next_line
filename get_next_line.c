@@ -6,7 +6,7 @@
 /*   By: davidos- <davidos-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 11:20:56 by davidos-          #+#    #+#             */
-/*   Updated: 2026/01/12 21:10:39 by davidos-         ###   ########.fr       */
+/*   Updated: 2026/01/13 19:12:01 by davidos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 char	*get_next_line(int fd)
 {
-	int			nb_read; //number bytes read of file descriptor
 	static char	*buffer;
 
 	if (fd < 0 || BUFFER_SIZE < 1)
