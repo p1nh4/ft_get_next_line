@@ -6,7 +6,7 @@
 /*   By: davidos- <davidos-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 11:20:56 by davidos-          #+#    #+#             */
-/*   Updated: 2026/01/13 19:12:01 by davidos-         ###   ########.fr       */
+/*   Updated: 2026/01/13 20:27:09 by davidos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,14 @@ char	*ft_read_file(int fd, char *buffer)
 	temp = malloc((BUFFER_SIZE + 1));
 	if (!temp)
 		return ((void *)0);
-	while (nb_read && !f_strchr(buffer, '\n'))
+	if (!buffer)
+	{
+		buffer = malloc(sizeof(char));
+		if (!buffer)
+			return ((void *)0);
+		buffer[0] = '\0';
+	}
+	while (nb_read && !ft_strchr(buffer, '\n'))
 	{
 		nb_read = read(fd, temp, BUFFER_SIZE);
 		if (nb_read < 0)
