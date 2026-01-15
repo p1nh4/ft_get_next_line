@@ -6,24 +6,30 @@
 /*   By: davidos- <davidos-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 11:20:56 by davidos-          #+#    #+#             */
-/*   Updated: 2026/01/13 20:27:09 by davidos-         ###   ########.fr       */
+/*   Updated: 2026/01/15 14:52:05 by davidos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+#include <stdio.h>
+
+char	*ft_read_file(int fd, char *buffer);
+char	*get_next_line(int fd);
+char	*ft_get_line(char *buffer);
 
 char	*get_next_line(int fd)
 {
 	static char	*buffer;
+	char		*line;
 
 	if (fd < 0 || BUFFER_SIZE < 1)
 		return ((void *)0);
 	buffer = ft_read_file(fd, buffer);
 	if (!buffer)
 		return ((void *)0);
-	return (buffer);
+	line = ft_get_line(buffer);
+	return (line);
 }
-
 
 char	*ft_read_file(int fd, char *buffer)
 {
@@ -59,4 +65,24 @@ char	*ft_read_file(int fd, char *buffer)
 		return ((void *)0);
 	else
 		return (buffer);
+}
+
+char	*ft_get_line(char *buffer)
+{
+	char	*line;
+	size_t	size;
+
+	if (!buffer)
+		return ((void *)0);
+	size = 0;
+	while (buffer[size] != '\0' && buffer[size] != '\n')
+		size++;
+	line = malloc(sizeof(char) * (size + 2));
+	if (!line)
+		return ((void *)0);
+	ft_strlcpy(line, buffer, size + 1);
+	if (buffer[size] == '\n')
+		line[size] = '\n';
+	line[++size] = '\0';
+	return (line);
 }

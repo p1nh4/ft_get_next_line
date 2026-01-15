@@ -6,7 +6,7 @@
 /*   By: davidos- <davidos-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/12 15:33:43 by davidos-          #+#    #+#             */
-/*   Updated: 2026/01/12 15:57:01 by davidos-         ###   ########.fr       */
+/*   Updated: 2026/01/15 12:46:34 by davidos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	main(int argc, char **argv)
 {
 	int		fd;
 	char	*line;
-	
+
 	if (argc > 1)
 	{
 		fd = open(argv[1], O_RDONLY);
