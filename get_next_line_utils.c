@@ -6,7 +6,7 @@
 /*   By: davidos- <davidos-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 11:21:32 by davidos-          #+#    #+#             */
-/*   Updated: 2026/01/13 19:50:12 by davidos-         ###   ########.fr       */
+/*   Updated: 2026/01/15 15:55:37 by davidos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	*ft_memcpy(void *dest, const void *src, size_t n);
 size_t	ft_strlcpy(char *dst, const char *src, size_t size);
 size_t	ft_strlcat(char *dst, const char *src, size_t size);
 char	*ft_strchr(const char *s, int c);
+char	*ft_substr(char const *s, unsigned int start, size_t len);
 char	*ft_strjoin(char const *s1, char const *s2);
 
 size_t	ft_strlen(const char *s)
@@ -97,6 +98,25 @@ char	*ft_strchr(const char *s, int c)
 	if (s[i] == (char)c)
 		return ((char *) &s[i]);
 	return ((void *)0);
+}
+
+char	*ft_substr(char const *s, unsigned int start, size_t len)
+{
+	char	*ptr_s;
+	size_t	len_s;
+
+	len_s = ft_strlen(s);
+	if (start >= len_s)
+		len = 0;
+	else if (len > (len_s - start))
+		len = (len_s - start);
+	ptr_s = malloc((len + 1) * sizeof(char));
+	if (!ptr_s)
+		return ((void *)0);
+	if (start < len_s)
+		s += start;
+	ft_strlcpy(ptr_s, s, (len + 1));
+	return (ptr_s);
 }
 
 char	*ft_strjoin(char const *s1, char const *s2)
