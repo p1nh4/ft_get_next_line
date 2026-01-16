@@ -6,7 +6,7 @@
 /*   By: davidos- <davidos-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 11:20:56 by davidos-          #+#    #+#             */
-/*   Updated: 2026/01/15 16:19:29 by davidos-         ###   ########.fr       */
+/*   Updated: 2026/01/16 20:53:40 by davidos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,12 @@ char	*get_next_line(int fd)
 	if (!buffer)
 		return ((void *)0);
 	line = ft_get_line(buffer);
+	if (!line)
+	{
+		free(buffer);
+		buffer = ((void *)0);
+		return ((void *)0);
+	}
 	buffer = ft_update_buff(buffer);
 	return (line);
 }
@@ -45,10 +51,9 @@ char	*ft_read_file(int fd, char *buffer)
 		return ((void *)0);
 	if (!buffer)
 	{
-		buffer = malloc(sizeof(char));
+		buffer = ft_strdup("");
 		if (!buffer)
 			return ((void *)0);
-		buffer[0] = '\0';
 	}
 	while (nb_read && !ft_strchr(buffer, '\n'))
 	{
@@ -64,9 +69,16 @@ char	*ft_read_file(int fd, char *buffer)
 	}
 	free(temp);
 	if (nb_read < 0)
+	{
+		free(buffer);
 		return ((void *)0);
-	else
-		return (buffer);
+	}
+	if (buffer[0] == '\0')
+	{
+		free(buffer);
+		return ((void *)0);
+	}
+	return (buffer);
 }
 
 char	*ft_get_line(char *buffer)
@@ -79,13 +91,18 @@ char	*ft_get_line(char *buffer)
 	size = 0;
 	while (buffer[size] != '\0' && buffer[size] != '\n')
 		size++;
-	line = malloc(sizeof(char) * (size + 2));
+	if (buffer[size] == '\n')
+		line = malloc(sizeof(char) * (size + 2));
+	else
+		line = malloc(sizeof(char) * (size + 1));
 	if (!line)
 		return ((void *)0);
 	ft_strlcpy(line, buffer, size + 1);
 	if (buffer[size] == '\n')
+	{
 		line[size] = '\n';
-	line[++size] = '\0';
+		line[++size] = '\0';
+	}
 	return (line);
 }
 
@@ -95,6 +112,8 @@ char	*ft_update_buff(char *buffer)
 	char	*ptr_buff;
 	int		size;
 
+	if (!buffer)
+		return ((void *)0);
 	temp = ft_strchr(buffer, '\n');
 	if (!temp)
 	{
@@ -103,7 +122,7 @@ char	*ft_update_buff(char *buffer)
 	}
 	else
 		size = (temp - buffer) + 1;
-	if (!buffer)
+	if (!buffer[size])
 	{
 		free(buffer);
 		return ((void *)0);
