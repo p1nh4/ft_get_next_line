@@ -7,7 +7,7 @@ OBJ_DIR		:= obj
 SRC_INCLUDE	:= get_next_line.h
 SRC			:= get_next_line.c		\
 			   get_next_line_utils.c
-INCLUDES	:= -I$(SRC_INCLUDE)
+#INCLUDES	:= -I$(SRC_INCLUDE)
 OBJ			:= $(patsubst %.c, $(OBJ_DIR)/%.o, $(SRC))
 RM			:= rm -f
 
@@ -16,7 +16,7 @@ all : $(NAME)
 $(NAME) : $(OBJ)
 	$(AR) $(AR_FLAGS) $@ $^
 
-$(OBJ_DIR)/%.o : %.c
+$(OBJ_DIR)/%.o : %.c get_next_line.h
 	mkdir -p $(OBJ_DIR)
 	$(CC) $(C_FLAGS) $(INCLUDES) -c -o $@ $<
 
