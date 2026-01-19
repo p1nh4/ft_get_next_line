@@ -41,3 +41,7 @@ other info random
 	https://stackoverflow.com/questions/41822904/why-does-malloc1-work-for-storing-4-byte-integers
 	https://stackoverflow.com/questions/31891095/writing-getline-function-in-c-language
 
+ulimits - open buffer
+	https://unix.stackexchange.com/questions/84227/limits-on-the-number-of-file-descriptors
+	https://www.sartori.eti.br/2011/03/aumentando-o-limite-de-file-descriptors.html
+

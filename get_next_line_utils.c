@@ -6,7 +6,7 @@
 /*   By: davidos- <davidos-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 11:21:32 by davidos-          #+#    #+#             */
-/*   Updated: 2026/01/17 18:00:14 by davidos-         ###   ########.fr       */
+/*   Updated: 2026/01/19 16:59:10 by davidos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,6 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	return (ptr_s);
 }
 
-
 char	*ft_strjoin(char const *s1, char const *s2)
 {
 	char	*concat_s;
@@ -155,4 +154,3 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	ft_strlcat(concat_s, s2, len_s);
 	return (concat_s);
 }
-

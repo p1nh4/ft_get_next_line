@@ -6,20 +6,20 @@
 /*   By: davidos- <davidos-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 11:21:46 by davidos-          #+#    #+#             */
-/*   Updated: 2026/01/16 21:31:36 by davidos-         ###   ########.fr       */
+/*   Updated: 2026/01/19 16:57:34 by davidos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef	GET_NEXT_LINE_H
+#ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 
-#include <stdlib.h>
-#include <unistd.h>
-#include <stddef.h>
+# include <stdlib.h>
+# include <unistd.h>
+# include <stddef.h>
 
-#ifndef BUFFER_SIZE
-# define BUFFER_SIZE 42
-#endif
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 42
+# endif
 
 size_t	ft_strlen(const char *s);
 void	*ft_memcpy(void *dest, const void *src, size_t n);
@@ -33,4 +33,3 @@ char	*ft_read_file(int fd, char *buffer);
 char	*get_next_line(int fd);
 
 #endif
-

@@ -6,7 +6,7 @@
 /*   By: davidos- <davidos-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 11:20:56 by davidos-          #+#    #+#             */
-/*   Updated: 2026/01/17 19:11:24 by davidos-         ###   ########.fr       */
+/*   Updated: 2026/01/19 16:55:11 by davidos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ char	*get_next_line(int fd)
 
 char	*ft_read_file(int fd, char *buffer)
 {
-	int		nb_read;	//number bytes read of file descriptor
+	int		nb_read;
 	char	*temp;
 	char	*ptr_buff;
 
@@ -96,7 +96,6 @@ char	*ft_get_line(char *buffer)
 	if (!buffer)
 		return ((void *)0);
 	size = 0;
-	
 	while (buffer[size] != '\0' && buffer[size] != '\n')
 		size++;
 	if (buffer[size] == '\n')
@@ -111,7 +110,6 @@ char	*ft_get_line(char *buffer)
 		line[size] = '\n';
 		size++;
 		line[size] = '\0';
-//		line[++size] = '\n';
 	}
 	return (line);
 }
@@ -126,7 +124,8 @@ char	*ft_update_buff(char *buffer)
 		return ((void *)0);
 	temp = ft_strchr(buffer, '\n');
 	if (!temp)
-	{	free(buffer);
+	{
+		free(buffer);
 		return ((void *)0);
 	}
 	else

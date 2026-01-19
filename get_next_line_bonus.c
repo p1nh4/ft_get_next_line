@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: davidos- <davidos-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 11:20:56 by davidos-          #+#    #+#             */
-/*   Updated: 2026/01/17 19:11:24 by davidos-         ###   ########.fr       */
+/*   Updated: 2026/01/19 17:02:41 by davidos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 #include <stdio.h>
 
 char	*ft_read_file(int fd, char *buffer);
@@ -20,28 +20,28 @@ char	*get_next_line(int fd);
 
 char	*get_next_line(int fd)
 {
-	static char	*buffer;
+	static char	*buffer[OPEN_MAX];
 	char		*line;
 
-	if (fd < 0 || BUFFER_SIZE < 1)
+	if (fd < 0 || fd >= OPEN_MAX || BUFFER_SIZE < 1)
 		return ((void *)0);
-	buffer = ft_read_file(fd, buffer);
-	if (!buffer)
+	buffer[fd] = ft_read_file(fd, buffer[fd]);
+	if (!buffer[fd])
 		return ((void *)0);
-	line = ft_get_line(buffer);
+	line = ft_get_line(buffer[fd]);
 	if (!line)
 	{
-		free(buffer);
-		buffer = ((void *)0);
+		free(buffer[fd]);
+		buffer[fd] = ((void *)0);
 		return ((void *)0);
 	}
-	buffer = ft_update_buff(buffer);
+	buffer[fd] = ft_update_buff(buffer[fd]);
 	return (line);
 }
 
 char	*ft_read_file(int fd, char *buffer)
 {
-	int		nb_read;	//number bytes read of file descriptor
+	int		nb_read;	
 	char	*temp;
 	char	*ptr_buff;
 
@@ -96,7 +96,6 @@ char	*ft_get_line(char *buffer)
 	if (!buffer)
 		return ((void *)0);
 	size = 0;
-	
 	while (buffer[size] != '\0' && buffer[size] != '\n')
 		size++;
 	if (buffer[size] == '\n')
@@ -109,9 +108,7 @@ char	*ft_get_line(char *buffer)
 	if (buffer[size] == '\n')
 	{
 		line[size] = '\n';
-		size++;
-		line[size] = '\0';
-//		line[++size] = '\n';
+		line[++size] = '\0';
 	}
 	return (line);
 }
@@ -126,7 +123,8 @@ char	*ft_update_buff(char *buffer)
 		return ((void *)0);
 	temp = ft_strchr(buffer, '\n');
 	if (!temp)
-	{	free(buffer);
+	{
+		free(buffer);
 		return ((void *)0);
 	}
 	else

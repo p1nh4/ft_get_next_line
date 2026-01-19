@@ -4,11 +4,15 @@ C_FLAGS		:= -Wall -Wextra -Werror
 AR			:= ar
 AR_FLAGS 	:= -rcs
 OBJ_DIR		:= obj
-SRC_INCLUDE	:= get_next_line.h
+SRC_INCLUDE	:= get_next_line.h \
+			   get_next_line_bonus.h
 SRC			:= get_next_line.c		\
-			   get_next_line_utils.c
+			   get_next_line_utils.c   
+SRC_BONUS	:= get_next_line_bonus.c \
+			   get_next_line_utils_bonus.c
 #INCLUDES	:= -I$(SRC_INCLUDE)
 OBJ			:= $(patsubst %.c, $(OBJ_DIR)/%.o, $(SRC))
+OBJ_BONUS       := $(patsubst %.c, $(OBJ_DIR)/%.o, $(SRC_BONUS))
 RM			:= rm -f
 
 all : $(NAME)
@@ -16,12 +20,15 @@ all : $(NAME)
 $(NAME) : $(OBJ)
 	$(AR) $(AR_FLAGS) $@ $^
 
-$(OBJ_DIR)/%.o : %.c get_next_line.h
-	mkdir -p $(OBJ_DIR)
-	$(CC) $(C_FLAGS) $(INCLUDES) -c -o $@ $<
+bonus : $(OBJ_BONUS)
+	$(AR) $(AR_FLAGS) $(NAME) $^
 
+$(OBJ_DIR)/%.o : %.c 
+	mkdir -p $(OBJ_DIR)
+	$(CC) $(C_FLAGS) -c -o $@ $<
+	
 clean :
-	$(RM) $(OBJ)
+	$(RM) $(OBJ) $(OBJ_BONUS) .bonus
 
 fclean : clean
 	$(RM) $(NAME)
@@ -29,5 +36,5 @@ fclean : clean
 
 re : fclean all
 
-.PHONY : all clean fclean re
+.PHONY : all bonus clean fclean re
 

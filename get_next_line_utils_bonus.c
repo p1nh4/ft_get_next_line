@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: davidos- <davidos-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 11:21:32 by davidos-          #+#    #+#             */
-/*   Updated: 2026/01/17 18:00:14 by davidos-         ###   ########.fr       */
+/*   Updated: 2026/01/19 16:59:56 by davidos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 size_t	ft_strlen(const char *s);
 void	*ft_memcpy(void *dest, const void *src, size_t n);
@@ -139,7 +139,6 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	return (ptr_s);
 }
 
-
 char	*ft_strjoin(char const *s1, char const *s2)
 {
 	char	*concat_s;
@@ -155,4 +154,3 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	ft_strlcat(concat_s, s2, len_s);
 	return (concat_s);
 }
-
