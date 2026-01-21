@@ -6,13 +6,14 @@
 /*   By: davidos- <davidos-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 11:20:56 by davidos-          #+#    #+#             */
-/*   Updated: 2026/01/19 16:55:11 by davidos-         ###   ########.fr       */
+/*   Updated: 2026/01/21 20:22:06 by davidos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 #include <stdio.h>
 
+char	*ft_free_and_return(char *buffer, char *temp);
 char	*ft_read_file(int fd, char *buffer);
 char	*ft_get_line(char *buffer);
 char	*ft_update_buff(char *buffer);
@@ -29,62 +30,43 @@ char	*get_next_line(int fd)
 	if (!buffer)
 		return ((void *)0);
 	line = ft_get_line(buffer);
-	if (!line)
-	{
-		free(buffer);
-		buffer = ((void *)0);
-		return ((void *)0);
-	}
 	buffer = ft_update_buff(buffer);
 	return (line);
+}
+
+char	*ft_join_and_free(char *buffer, char *temp)
+{
+	char	*new_buffer;
+
+	new_buffer = ft_strjoin(buffer, temp);
+	free(buffer);
+	return (new_buffer);
 }
 
 char	*ft_read_file(int fd, char *buffer)
 {
 	int		nb_read;
 	char	*temp;
-	char	*ptr_buff;
 
-	nb_read = 1;
+	if (!buffer)
+		buffer = ft_strdup("");
 	temp = malloc((BUFFER_SIZE + 1));
 	if (!temp)
 		return ((void *)0);
-	if (!buffer)
-	{
-		buffer = ft_strdup("");
-		if (!buffer)
-		{
-			free(temp);
-			return ((void *)0);
-		}
-	}
+	nb_read = 1;
 	while (nb_read && !ft_strchr(buffer, '\n'))
 	{
 		nb_read = read(fd, temp, BUFFER_SIZE);
 		if (nb_read < 0)
-			break ;
+			return (free(buffer), free(temp), ((void *)0));
 		temp[nb_read] = '\0';
-		ptr_buff = buffer;
-		buffer = ft_strjoin(buffer, temp);
+		buffer = ft_join_and_free(buffer, temp);
 		if (!buffer)
-		{
-			free(ptr_buff);
-			free(temp);
-			return ((void *)0);
-		}
-		free(ptr_buff);
+			return (free(temp), ((void *)0));
 	}
 	free(temp);
-	if (nb_read < 0)
-	{
-		free(buffer);
-		return ((void *)0);
-	}
-	if (buffer[0] == '\0')
-	{
-		free(buffer);
-		return ((void *)0);
-	}
+	if (!buffer || !buffer[0])
+		return (free(buffer), (void *)0);
 	return (buffer);
 }
 
@@ -98,44 +80,32 @@ char	*ft_get_line(char *buffer)
 	size = 0;
 	while (buffer[size] != '\0' && buffer[size] != '\n')
 		size++;
-	if (buffer[size] == '\n')
-		line = malloc(sizeof(char) * (size + 2));
-	else
-		line = malloc(sizeof(char) * (size + 1));
+	line = malloc(size + 2);
 	if (!line)
 		return ((void *)0);
-	ft_strlcpy(line, buffer, size + 1);
-	if (buffer[size] == '\n')
+	size = 0;
+	while (buffer[size] && buffer[size] != '\n')
 	{
-		line[size] = '\n';
+		line[size] = buffer[size];
 		size++;
-		line[size] = '\0';
 	}
+	if (buffer[size] == '\n')
+		line[size++] = '\n';
+	line[size] = '\0';
 	return (line);
 }
 
 char	*ft_update_buff(char *buffer)
 {
-	char	*temp;
-	char	*ptr_buff;
-	int		size;
+	char	*new_buffer;
+	char	*posit_newline;
 
-	if (!buffer)
-		return ((void *)0);
-	temp = ft_strchr(buffer, '\n');
-	if (!temp)
-	{
-		free(buffer);
-		return ((void *)0);
-	}
-	else
-		size = (temp - buffer) + 1;
-	if (!buffer[size])
-	{
-		free(buffer);
-		return ((void *)0);
-	}
-	ptr_buff = ft_substr(buffer, size, ft_strlen(buffer) - size);
+	posit_newline = ft_strchr(buffer, '\n');
+	if (!posit_newline)
+		return (free(buffer), (void *)0);
+	if (!posit_newline[1])
+		return (free(buffer), ((void *)0));
+	new_buffer = ft_strdup(posit_newline + 1);
 	free(buffer);
-	return (ptr_buff);
+	return (new_buffer);
 }
