@@ -6,12 +6,11 @@
 /*   By: davidos- <davidos-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 11:20:56 by davidos-          #+#    #+#             */
-/*   Updated: 2026/01/21 20:22:06 by davidos-         ###   ########.fr       */
+/*   Updated: 2026/01/21 20:55:06 by davidos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include <stdio.h>
 
 char	*ft_free_and_return(char *buffer, char *temp);
 char	*ft_read_file(int fd, char *buffer);
