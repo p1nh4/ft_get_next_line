@@ -1,0 +1,11 @@
+# Teste 1: Ficheiros diferentes
+./gnl_bonus testes/multiple_lines.txt testes/single_line.txt
+
+# Teste 2: Mesmo ficheiro (mas FDs diferentes)
+./gnl_bonus testes/multiple_lines.txt testes/multiple_lines.txt
+
+# Teste 3: Tres ficheiros
+./gnl_bonus testes/single_line.txt testes/multiple_lines.txt testes/mixed.txt
+
+# Teste 4: +5 ficheiros
+./gnl_bonus testes/*.txt

@@ -1,0 +1,5 @@
+Tab	here	and	here
+Quotes "test" and 'test'
+Special chars: àáâãäåæçèéêë
+Numbers: 0123456789
+Symbols: !@#$%^&*()_+-={}[]|\:;"'<>,.?/

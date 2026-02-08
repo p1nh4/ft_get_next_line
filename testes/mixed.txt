@@ -1,0 +1,5 @@
+Line with newline
+Another line with newline
+
+Empty line above
+Last line without newline

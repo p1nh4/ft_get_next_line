@@ -1,0 +1,8 @@
+./gnl testes/empty.txt           # Deve não imprimir nada
+./gnl testes/single_line.txt     # Imprime uma linha sem \n
+./gnl testes/single_line_nl.txt  # Imprime uma linha com \n
+./gnl testes/multiple_lines.txt  # Imprime 5 linhas
+./gnl testes/long_line.txt       # Imprime linha longa
+./gnl testes/only_nl.txt       	 # Imprime 3 linhas (\n)
+./gnl testes/mixed.txt       	 # Imprime mix linhas e conteudo
+./gnl/special_chars.txt			 # Imprime linhas com caracteres especiais
