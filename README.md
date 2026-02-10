@@ -41,12 +41,13 @@ Usar no seu projeto:
 // Para bonus:
 #include "get_next_line_bonus.h"
 ```
-
-Compilar com get_next_line:
+Compilar:
 ```bash
-cc -D BUFFER_SIZE=42 seu_programa.c -L. -lget_next_line -o programa
+# Mandatory
+cc -Wall -Wextra -Werror -D BUFFER_SIZE=42 get_next_line.c get_next_line_utils.c main.c -o gnl
+
 # Bonus
-cc -Wall -Wextra -Werror -D BUFFER_SIZE=42 get_next_line_bonus.c get_next_line_utils_bonus.c main_bonus.c -o gnl_bonus
+cc -Wall -Wextra -Werror -D BUFFER_SIZE=42 get_next_line_bonus.c get_next_line_utils_bonus.c main.c -o gnl_bonus
 ```
 
 ### Testes
@@ -72,25 +73,16 @@ Ver implementação completa em `testes/test_main.c` e `testes/test_bonus.c`.
 
 O projeto pode ser testado com vários BUFFER_SIZE:
 ```bash
-cc -D BUFFER_SIZE=1 ...     # Teste stress (leitura byte a byte)
-cc -D BUFFER_SIZE=42 ...    # Valor padrão
-cc -D BUFFER_SIZE=9999 ...  # Buffer grande
+cc -D BUFFER_SIZE=<valor> ...
 ```
 
 Ficheiros de teste incluídos:
-- `empty.txt` - Ficheiro vazio
-- `single_line.txt` - Uma linha sem newline
-- `single_line_nl.txt` - Uma linha com newline
-- `multiple_lines.txt` - Múltiplas linhas
-- `only_nl.txt` - Apenas newlines
-- `long_line.txt` - Linha muito longa
-- `mixed.txt` - Linhas mistas (com/sem newline)
-- `special_chars.txt` - Caracteres especiais
+O projeto inclui diversos ficheiros de teste em `testes/*.txt`.
 
 **Testers externos:**
-- OK [gnlTester](https://github.com/Tripouille/gnlTester)
-- OK [gnl-station-tester](https://github.com/kodpe/gnl-station-tester)
-- OK [42TESTERS-GNL](https://github.com/Mazoise/42TESTERS-GNL)
+- [gnlTester](https://github.com/Tripouille/gnlTester)
+- [gnl-station-tester](https://github.com/kodpe/gnl-station-tester)
+- [42TESTERS-GNL](https://github.com/Mazoise/42TESTERS-GNL)
 
 ## Resources
 
@@ -109,16 +101,12 @@ AI foi usado como assistente de aprendizagem para:
 ## Features
 
 ### Funções Obrigatórias
-- `get_next_line(int fd)` - Retorna a próxima linha do file descriptor, incluindo o `\n`
-  - Retorna `NULL` quando chega ao fim do ficheiro ou em caso de erro
-  - Usa buffer estático para preservar dados entre chamadas
-  - Funciona com qualquer BUFFER_SIZE definido em compilação
+`get_next_line(int fd)` - Retorna próxima linha (com `\n`) ou `NULL` em EOF/erro.
+Usa buffer estático para preservar estado entre chamadas, independente do BUFFER_SIZE.
 
 ### Funcionalidades Bonus
-- **Múltiplos file descriptors**: Suporta leitura simultânea de vários ficheiros
-  - Usa array estático `buffer[OPEN_MAX]` para manter estado de cada fd
-  - Cada file descriptor mantém o seu próprio buffer independente
-  - Permite alternar entre ficheiros sem perder o progresso de leitura
+Suporta múltiplos file descriptors simultaneamente via array `buffer[OPEN_MAX]`,
+permitindo alternar entre ficheiros sem perder progresso.
 
 ## Algorithm and Data Structure
 

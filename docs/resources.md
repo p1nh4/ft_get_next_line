@@ -2,7 +2,7 @@ Resources & References
 
 ---
 
-System & OS Concepts 
+System & OS Concepts
 
 -File descriptors
 - [What are file descriptors - Stack Overflow](https://stackoverflow.com/questions/5256599/what-are-file-descriptors-explained-in-simple-terms)
@@ -20,7 +20,7 @@ System & OS Concepts
 
 ---
 
-Memory management 
+Memory management
 
 -stack vs heap
 - [Heap memoria - Google Search](https://www.google.com/search?q=heap+memoria&client=ubuntu-sn&hs=oop&sca_esv=b9caa2c9e6274683&channel=fs&sxsrf=ANbL-n5awZ3WPUc9N5lBsRTJ1WaKLeua9g%3A1768335641841&ei=GalmaamJM7bni-gP7PzHwQQ&oq=heap&gs_lp=Egxnd3Mtd2l6LXNlcnAiBGhlYXAqAggAMgcQIxiwAxgnMgoQABiwAxjWBBhHMgoQABiwAxjWBBhHMgoQABiwAxjWBBhHMgoQABiwAxjWBBhHMgoQABiwAxjWBBhHMgoQABiwAxjWBBhHMgoQABiwAxjWBBhHMgoQABiwAxjWBBhHMg0QABiABBiwAxhDGIoFSLENUABYAHACeAGQAQCYAQCgAQCqAQC4AQPIAQCYAgKgAiaYAwCIBgGQBgqSBwEyoAcAsgcAuAcAwgcDMy0yyAcdgAgA&sclient=gws-wiz-serp)
@@ -30,8 +30,8 @@ Memory management
 - [Variáveis estáticas - UFPR](https://www.inf.ufpr.br/hexsel/ci067/10_aloc.html)
 - [Static variables explained - YouTube](https://www.youtube.com/watch?v=ji1dq8cklyU)
 
-**Conceito:** Variáveis locais podem ser criadas como estáticas adicionando `static` na declaração. 
-Têm escopo local (visíveis apenas na função), mas são alocadas no início do programa e liberadas apenas no final. 
+**Conceito:** Variáveis locais podem ser criadas como estáticas adicionando `static` na declaração.
+Têm escopo local (visíveis apenas na função), mas são alocadas no início do programa e liberadas apenas no final.
 O conteúdo é preservado entre chamadas de funções.
 
 -malloc & buffers
@@ -48,10 +48,10 @@ Makefile
 - [Variable flavors in Makefile](https://www.gnu.org/software/make/manual/html_node/Flavors.html#Flavors)
 
 **Notas:**
-= (recursively expanded) - expande toda vez que é usada, lê sempre os valores mais recentes. 
+= (recursively expanded) - expande toda vez que é usada, lê sempre os valores mais recentes.
 Permite redefinir e usar ifeq para modificar valores
 
-:= (simply expanded) - expande uma vez na atribuição, mais rápida. 
+:= (simply expanded) - expande uma vez na atribuição, mais rápida.
 A ordem das variáveis importa (se inverteres pode dar erro porque variável ainda não existe)
 
 ---
@@ -62,6 +62,16 @@ Compilation
 cc -Wall -Wextra -Werror -D BUFFER_SIZE=42 get_next_line.c get_next_line_utils.c main.c -o gnl_test
 cc -Wall -Wextra -Werror -D BUFFER_SIZE=42 get_next_line_bonus.c get_next_line_utils_bonus.c main_bonus.c -o gnl_bonus
 ```
+
+Testes
+ - `empty.txt` - Ficheiro vazio
+- `single_line.txt` - Uma linha sem newline
+- `single_line_nl.txt` - Uma linha com newline
+- `multiple_lines.txt` - Múltiplas linhas
+- `only_nl.txt` - Apenas newlines
+- `long_line.txt` - Linha muito longa
+- `mixed.txt` - Linhas mistas (com/sem newline)
+- `special_chars.txt` - Caracteres especiais
 
 ---
 
