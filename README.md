@@ -15,9 +15,8 @@ O projeto está dividido em duas partes:
 - **Obrigatória**: Implementa leitura básica linha a linha de um único file descriptor
 - **Bonus**: Adiciona suporte para múltiplos file descriptors simultaneamente
 
-O principal desafio deste projeto foi a **gestão de memória**, especialmente ao lidar com leituras
-parciais e buffers residuais. Garantir que não existem memory leaks ao processar múltiplos file
-descriptors e diferentes tamanhos de BUFFER_SIZE.
+O principal desafio deste projeto foi a gestão de memória, especialmente ao lidar com leituras
+parciais e buffers e processar múltiplos file descriptors e diferentes tamanhos de BUFFER_SIZE.
 
 ## Instructions
 
@@ -50,35 +49,6 @@ cc -D BUFFER_SIZE=42 seu_programa.c -L. -lget_next_line -o programa
 cc -Wall -Wextra -Werror -D BUFFER_SIZE=42 get_next_line_bonus.c get_next_line_utils_bonus.c main_bonus.c -o gnl_bonus
 ```
 
-**Exemplo de uso:**
-```bash
-# Ler um ficheiro
-./gnl ficheiro.txt
-
-# Ler múltiplos ficheiros (bonus)
-./gnl_bonus ficheiro1.txt ficheiro2.txt ficheiro3.txt
-```
-Exemplo básico:
-```c
-#include "get_next_line.h"
-#include <fcntl.h>
-#include <stdio.h>
-
-int main(void)
-{
-    int fd = open("file.txt", O_RDONLY);
-    char *line;
-
-    while ((line = get_next_line(fd)) != NULL)
-    {
-        printf("%s", line);
-        free(line);
-    }
-    close(fd);
-    return (0);
-}
-```
-
 ### Testes
 
 **Usando Makefile:**
@@ -89,14 +59,16 @@ make test_bonus    # Executa teste bonus
 
 **Compilação manual:**
 ```bash
-# Teste mandatory com ficheiro específico
+# Mandatory
 cc -D BUFFER_SIZE=42 -Wall -Wextra -Werror get_next_line.c get_next_line_utils.c testes/test_main.c -o test_gnl
-./test_gnl testes/multiple_lines.txt
+./test_gnl testes/multiple_lines.txt   # ou qualquer ficheiro.txt
 
-# Teste bonus com múltiplos ficheiros
+# Bonus
 cc -D BUFFER_SIZE=42 -Wall -Wextra -Werror get_next_line_bonus.c get_next_line_utils_bonus.c testes/test_bonus.c -o test_bonus
-./test_bonus testes/empty.txt testes/long_line.txt
+./test_bonus testes/empty.txt testes/long_line.txt   # ou múltiplos ficheiros
 ```
+
+Ver implementação completa em `testes/test_main.c` e `testes/test_bonus.c`.
 
 O projeto pode ser testado com vários BUFFER_SIZE:
 ```bash
@@ -132,7 +104,6 @@ AI foi usado como assistente de aprendizagem para:
 - Explicar o funcionamento de conceitos e exemplos da documentacao
 - Debugging de memory leaks com Valgrind (double frees, invalid reads)
 - Compreender edge cases (EOF sem newline, ficheiros vazios, BUFFER_SIZE = 1)
-- Clarificação sobre gestão de múltiplos file descriptors no bonus
 - Validação de conformidade com a norminette e testes
 
 ## Features
@@ -155,27 +126,17 @@ AI foi usado como assistente de aprendizagem para:
 
 A implementação usa **variáveis estáticas** e um **ciclo de leitura incremental**:
 
-1. **Inicialização** (`get_next_line`):
-   - Valida parâmetros (fd >= 0, BUFFER_SIZE > 0)
-   - Buffer estático preserva conteúdo residual de chamadas anteriores
-   - **Versão bonus**: Array estático `buffer[OPEN_MAX]` permite múltiplos fd
+1. **Validação** (`get_next_line`) - Verifica `fd >= 0` e `BUFFER_SIZE > 0`.
+Buffer estático preserva dados entre chamadas (array `buffer[OPEN_MAX]` no bonus para múltiplos fd).
 
-2. **Fase de Leitura** (`ft_read_file`):
-   - Lê BUFFER_SIZE bytes de cada vez com `read()`
-   - Concatena ao buffer existente usando `ft_strjoin`
-   - **Condição de paragem**: Encontra `\n` OU `read()` retorna 0 (EOF)
-   - Liberta memória temporária a cada iteração
+2. **Leitura** (`ft_read_file`) - Loop de `read()` em blocos de `BUFFER_SIZE`,
+concatenando ao buffer até encontrar `\n` ou EOF. Liberta memória temporária a cada iteração.
 
-3. **Extração de Linha** (`ft_get_line`):
-   - Calcula tamanho até `\n` ou fim da string
-   - Aloca espaço suficiente (tamanho + `\n` + `\0`)
-   - Copia caracteres incluindo `\n` se presente
+3. **Extração** (`ft_get_line`) - Copia do buffer até `\n` (inclusive) ou fim da string
+para nova linha alocada.
 
-4. **Atualização de Buffer** (`ft_update_buff`):
-   - Localiza posição do `\n` com `ft_strchr`
-   - Cria novo buffer com conteúdo **após** o `\n`
-   - Liberta buffer antigo
-   - Retorna `NULL` se não houver conteúdo residual
+4. **Atualização** (`ft_update_buff`) - Localiza `\n` no buffer, cria novo buffer
+apenas com conteúdo após o `\n`, liberta buffer antigo. Retorna `NULL` se não restar conteúdo.
 
 ### Estrutura de Dados
 
@@ -191,31 +152,21 @@ static char *buffer[OPEN_MAX];  // Um buffer por file descriptor
 
 **Justificação das Escolhas:**
 
-- **Variável estática**:
-  - Escolhida para preservar dados residuais entre chamadas sucessivas
-  - Permite que cada chamada continue de onde a anterior parou
-  - Mantém estado sem necessidade de estrutura externa
+- **Variável estática** - Preserva dados residuais entre chamadas, permitindo continuar
+de onde parou sem estruturas externas.
 
-- **Array estático no bonus**:
-  - Cada índice corresponde a um file descriptor (buffer[fd])
-  - Permite gestão independente de múltiplos ficheiros
-  - OPEN_MAX garante espaço para todos os fd possíveis no sistema
+- **Array estático (bonus)** - Cada índice `buffer[fd]` corresponde a um file descriptor,
+permitindo gestão independente de múltiplos ficheiros (até `OPEN_MAX` simultâneos).
 
-- **Leitura incremental (BUFFER_SIZE)**:
-  - Evita carregar ficheiros inteiros na memória
-  - Funciona com qualquer tamanho de ficheiro
-  - Performance ajustável via BUFFER_SIZE em compilação
+- **Leitura incremental** - `BUFFER_SIZE` configurável evita carregar ficheiros inteiros
+na memória (funciona de 1 byte até valores grandes).
 
-- **Libertação progressiva**:
-  - `ft_join_and_free` liberta buffer antigo após concatenação
-  - `ft_update_buff` liberta buffer após extrair linha
-  - Previne memory leaks mesmo em leituras longas
+- **Libertação progressiva** - `ft_join_and_free` liberta buffer antigo após concatenação,
+`ft_update_buff` liberta buffer após extrair linha. Previne memory leaks em leituras longas.
 
-- **Gestão de edge cases**:
-  - EOF sem `\n` → Retorna última linha
-  - Ficheiro vazio → Retorna `NULL`
-  - Erro de `read()` → Liberta memória e retorna `NULL`
-  - BUFFER_SIZE = 1 → Funciona (leitura byte a byte)
+- **Edge cases** - EOF sem `\n` retorna última linha, ficheiros vazios retornam `NULL`,
+erros de `read()` libertam memória e retornam `NULL`, `BUFFER_SIZE = 1` funciona
+(leitura byte a byte).
 
 ## Project Structure
 ```
